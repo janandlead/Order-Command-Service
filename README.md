@@ -21,17 +21,17 @@ Versions below reflect the repository configuration:
 
 ```mermaid
 flowchart LR
-    Caller[API Client] -->|POST /api/orders| Controller[OrderController]
-    subgraph Order Command Service - port 8082
-        Controller --> Service[OrderServiceImpl]
-        Service --> Feign[InventoryClient - OpenFeign]
-        Service --> Repository[OrderRepository - Spring Data JPA]
-        Handler[OrderGlobalExceptionHandler]
-        Service -. InsufficientStockException .-> Handler
+    Caller["API Client"] -->|"POST /api/orders"| Controller["OrderController"]
+    subgraph OrderServiceApp ["Order Command Service - port 8082"]
+        Controller --> Service["OrderServiceImpl"]
+        Service --> Feign["InventoryClient - OpenFeign"]
+        Service --> Repository["OrderRepository - Spring Data JPA"]
+        Handler["OrderGlobalExceptionHandler"]
+        Service -.->|"InsufficientStockException"| Handler
     end
-    Feign -->|GET /api/products/productCode?quantity=N| Inventory[Inventory Query Service - port 8081]
-    Repository --> DB[(PostgreSQL - orderdb / orders)]
-    Handler -. HTTP 404 .-> Caller
+    Feign -->|"GET /api/products/{productCode}?quantity=N"| Inventory["Inventory Query Service - port 8081"]
+    Repository --> DB[("PostgreSQL - orderdb / orders")]
+    Handler -.->|"HTTP 404"| Caller
 ```
 
 | Package | Responsibility |
