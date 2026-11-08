@@ -14,6 +14,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class OrderGlobalExceptionHandler {
 
+	/**
+	 * Maps missing products and insufficient stock to the application's HTTP 404 response.
+	 *
+	 * @param productNotFoundException business exception containing the failure message
+	 * @param httpServletRequest request used to populate the error path
+	 * @return HTTP 404 response with the timestamp, status, message, and request path
+	 */
 	@ExceptionHandler(InsufficientStockException.class)
 	public ResponseEntity<ErrorResponse> handleProductNotFoundException(
 			InsufficientStockException productNotFoundException, HttpServletRequest httpServletRequest) {

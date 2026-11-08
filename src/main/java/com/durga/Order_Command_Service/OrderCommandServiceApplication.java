@@ -8,6 +8,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class OrderCommandServiceApplication {
 
+	/**
+	 * Starts the order command application and initializes its Spring context.
+	 *
+	 * @param args command-line arguments passed to Spring Boot
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(OrderCommandServiceApplication.class, args);
 	}

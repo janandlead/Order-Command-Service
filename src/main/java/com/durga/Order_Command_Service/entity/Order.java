@@ -22,6 +22,14 @@ import lombok.Setter;
 public class Order {
 
 	
+	/**
+	 * Creates an order whose identifier will be generated when it is persisted.
+	 *
+	 * @param productCode product code returned by inventory
+	 * @param productName product name returned by inventory
+	 * @param createdAt local date and time when the order was created
+	 * @param quantity quantity to store for the order
+	 */
 	public Order(String productCode, String productName, LocalDateTime createdAt, Integer quantity) {
 		// TODO Auto-generated constructor stub
 		this.productCode=productCode;

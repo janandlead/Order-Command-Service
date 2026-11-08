@@ -23,6 +23,17 @@ public class OrderServiceImpl implements OrderService {
 	private final OrderRepository orderRepository;
 	private final InventoryClient inventoryClient;
 
+	/**
+	 * Checks inventory and saves an order using the returned product details.
+	 * The stored quantity is the inventory response's available quantity, rather
+	 * than the request quantity. This operation does not reserve or decrement stock.
+	 *
+	 * @param orderRequest product code and requested quantity for the inventory check
+	 * @return response mapped from the persisted order
+	 * @throws InsufficientStockException if inventory returns HTTP 404 or reports
+	 *         the product unavailable
+	 * @throws InventoryServiceUnavailableException if another Feign failure occurs
+	 */
 	@Override
 	public OrderResponse placeOrder(OrderRequest orderRequest) {
 
@@ -53,6 +64,12 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
+	/**
+	 * Maps a persisted order to the fields exposed by the order creation API.
+	 *
+	 * @param order saved order to map
+	 * @return response containing the ID, product code, quantity, and creation time
+	 */
 	private OrderResponse toResdponse(Order order) {
 		return new OrderResponse(order.getId(), order.getProductCode(), order.getQuantity(), order.getCreatedAt());
 	}

@@ -18,6 +18,16 @@ public class OrderController {
 
 	private final OrderService orderService;
 
+	/**
+	 * Handles an order creation request by delegating to the order service.
+	 *
+	 * @param orderRequest product code and requested quantity from the HTTP request body
+	 * @return details of the persisted order
+	 * @throws com.durga.Order_Command_Service.exception.InsufficientStockException
+	 *         if the product is missing or inventory reports it unavailable
+	 * @throws com.durga.Order_Command_Service.exception.InventoryServiceUnavailableException
+	 *         if another inventory client failure occurs
+	 */
 	@PostMapping
 	public OrderResponse placeOrder(@RequestBody OrderRequest orderRequest) {
 
